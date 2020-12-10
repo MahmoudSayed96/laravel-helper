@@ -12,6 +12,10 @@
 *
 */
 
+use Illuminate\Support\Str;
+
+define('DS', DIRECTORY_SEPARATOR);
+
 if(!function_exists('is_current_route')) {
   /**
    * @param $route 
@@ -31,8 +35,8 @@ if(!function_exists('is_current_route')) {
  * @return App\User $user.
  *  Return current user object.
  */
-if (!function_exists('currentUser')) {
-    function currentUser() {
+if (!function_exists('current_user')) {
+    function current_user() {
         return auth()->user();
     }
 }
@@ -62,4 +66,22 @@ if (!function_exists('admin')) {
         return auth()->guard('admin');
     }
 }
+
+ /**
+   * Get dashboard route name.
+   * Change dashboard/admin prefix name from one place.
+   * 
+   * @param $route.
+   * Route name 'sections.index'
+   * @param $data.
+   * 
+   * @return \Illuminate\Http\Response $route_object.
+   */
+  if (!function_exists('dashboard_route_name')) {
+    function dashboard_route_name($route = 'welcome', $data=[])
+    {
+        return route('dashboard.' . $route, $data);
+    }
+}
+
 ```
