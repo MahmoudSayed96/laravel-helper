@@ -22,7 +22,7 @@ if(!function_exists('is_current_route')) {
    *  @return bool
    */
    function is_current_route($route) {
-      if(request()->route()->getName == $route)
+      if(request()->route()->getName() == $route)
         return true;
 
        return false;
