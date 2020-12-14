@@ -75,12 +75,30 @@ if (!function_exists('admin')) {
    * Route name 'sections.index'
    * @param $data.
    * 
+   * @return String
+   * Return name of route.
+   */
+  if (!function_exists('admin_route_name')) {
+    function admin_route_name($route = 'welcome', $data=[])
+    {
+        return 'admin.' . $route;
+    }
+  }
+  
+  /**
+   * Get dashboard route name.
+   * Change dashboard/admin prefix name from one place.
+   * 
+   * @param $route.
+   * Route name 'sections.index'
+   * @param $data.
+   * 
    * @return \Illuminate\Http\Response $route_object.
    */
-  if (!function_exists('dashboard_route_name')) {
-    function dashboard_route_name($route = 'welcome', $data=[])
+  if (!function_exists('admin_route')) {
+    function admin_route_name($route = 'welcome', $data=[])
     {
-        return route('dashboard.' . $route, $data);
+        return route('admin.' . $route, $data);
     }
 }
 
