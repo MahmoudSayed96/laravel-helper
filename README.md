@@ -16,17 +16,14 @@ use Illuminate\Support\Str;
 
 define('DS', DIRECTORY_SEPARATOR);
 
+/**
+  * @param $routeName ex.departments 
+  *  @return bool
+  */
 if(!function_exists('is_current_route')) {
-  /**
-   * @param $route 
-   *  @return bool
-   */
-   function is_current_route($route) {
-      if(request()->route()->getName() == $route)
-        return true;
-
-       return false;
-   }
+     function is_current_route($route_name = '') {
+      return NULL !== request()->segment(2) && request()->segment(2) == $route_name ? true : false;
+     }
 }
 
 /**
