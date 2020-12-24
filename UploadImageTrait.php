@@ -19,6 +19,12 @@ trait UploadImageTrait
      */
     public function uploadImage(string $folder, $image)
     {
+        // Create folder if not exists.
+         $path = public_path('/uploads/images/' . $folder);
+        if(!File::exists($path)){
+         File::makeDirectory($path);   
+        }
+        
         $imageName = $image->hashName();
         $path = 'uploads/images/' . $folder . '/' . $imageName;
         $img = Image::make($image);
@@ -55,6 +61,12 @@ trait UploadImageTrait
      */
     public function uploadMultipleImages($folder, $images)
     {
+        // Create folder if not exists.
+         $path = public_path('/uploads/images/' . $folder);
+        if(!File::exists($path)){
+         File::makeDirectory($path);   
+        }
+        
         $images_arr = array();
         if ($files = $images) {
             foreach ($files as $file) {
@@ -79,9 +91,39 @@ trait UploadImageTrait
             $this->removeImage($image);
         }
     }
+    
+     /**
+     * Save images in specific directory in public path.
+     * 
+     * @param Illuminate\Http\Request $request 
+     * @param String $inputName
+     *  Name of file input in form.
+     * @param Object $row.
+     *  Object after updated in database.
+     * @param String $folderName.
+     *  Name of folder that will store images in it.
+     * @param String $defaultImagePath.
+     *  Path of default image used.
+     */
+    public function saveImage($request, $inputName, $row, $folderName, $defaultImagePath) {
+        // Update site logo.
+        if($request->has($inputName)) {
+            $oldAvatar = $row->getAvatar();
+            if(isset($oldAvatar) && $oldAvatar != $defaultImagePath) {
+                // Remove old image.
+                $this->removeImage($oldAvatar);
+            }
+            // Update with new image.
+            $newAvatar = $this->uploadImage($folderName, $request->avatar);
+            $row->update([
+                $inputName => $newAvatar
+            ]);
+        }
+    }
 
     private function DS()
     {
         return DIRECTORY_SEPARATOR;
     }
+    
 }
